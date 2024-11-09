@@ -21,7 +21,7 @@ function RouteComponent() {
   };
 
   return (
-    <div className="shadow-white w-full max-w-sm p-8 space-y-6 rounded-lg shadow-lg bg-black bg-opacity-50 text-white backdrop-blur-md transform transition-all duration-500 hover:scale-105">
+    <div className="shadow-white w-full max-w-sm p-8 space-y-6 rounded-lg shadow-lg bg-black bg-opacity-50 text-white backdrop-blur-md transition-all duration-500">
       <h1 className="text-3xl font-bold text-center text-white">Sign Up</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -32,7 +32,7 @@ function RouteComponent() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="block w-full px-4 py-2 mt-2 border border-gray-300 rounded-md shadow-sm focus:ring-white focus:border-white sm:text-sm text-black transition duration-300 ease-in-out transform hover:scale-105"
+              className="block w-full px-4 py-2 mt-2 border border-gray-300 rounded-md shadow-sm focus:ring-white focus:border-white sm:text-sm text-black transition duration-300 ease-in-out"
             />
           </label>
         </div>
@@ -44,14 +44,14 @@ function RouteComponent() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="block w-full px-4 py-2 mt-2 border border-gray-300 rounded-md shadow-sm focus:ring-white focus:border-white sm:text-sm text-black transition duration-300 ease-in-out transform hover:scale-105"
+              className="block w-full px-4 py-2 mt-2 border border-gray-300 rounded-md shadow-sm focus:ring-white focus:border-white sm:text-sm text-black transition duration-300 ease-in-out"
             />
           </label>
         </div>
         <div>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-medium text-black bg-white rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition duration-300 ease-in-out transform hover:scale-105"
+            className="w-full px-4 py-2 font-medium text-black bg-white rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition duration-300 ease-in-out"
           >
             Sign Up
           </button>
@@ -59,13 +59,13 @@ function RouteComponent() {
         <div className="flex justify-between">
           <Link
             to="/auth"
-            className="text-sm font-medium text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
+            className="text-sm font-medium text-white hover:text-gray-300 transition duration-300 ease-in-out"
           >
             Login
           </Link>
           <Link
             to="/auth/forgot-password"
-            className="text-sm font-medium text-white hover:text-gray-300 transition duration-300 ease-in-out transform hover:scale-105"
+            className="text-sm font-medium text-white hover:text-gray-300 transition duration-300 ease-in-out"
           >
             Forgot Password
           </Link>

@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as DashboardImport } from './routes/dashboard'
 import { Route as AuthImport } from './routes/auth'
 import { Route as AuthIndexImport } from './routes/auth/index'
 import { Route as AuthSignupImport } from './routes/auth/signup'
@@ -23,6 +24,12 @@ import { Route as AuthForgotPasswordImport } from './routes/auth/forgot-password
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const DashboardRoute = DashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AuthRoute = AuthImport.update({
   id: '/auth',
@@ -72,6 +79,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
     '/auth/forgot-password': {
       id: '/auth/forgot-password'
       path: '/forgot-password'
@@ -115,6 +129,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/auth': typeof AuthRouteWithChildren
+  '/dashboard': typeof DashboardRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/': typeof AuthIndexRoute
@@ -122,6 +137,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/dashboard': typeof DashboardRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth': typeof AuthIndexRoute
@@ -131,6 +147,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/auth': typeof AuthRouteWithChildren
+  '/dashboard': typeof DashboardRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/auth/': typeof AuthIndexRoute
@@ -138,13 +155,20 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/auth/forgot-password' | '/auth/signup' | '/auth/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/auth/forgot-password'
+    | '/auth/signup'
+    | '/auth/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/forgot-password' | '/auth/signup' | '/auth'
+  to: '/' | '/dashboard' | '/auth/forgot-password' | '/auth/signup' | '/auth'
   id:
     | '__root__'
     | '/'
     | '/auth'
+    | '/dashboard'
     | '/auth/forgot-password'
     | '/auth/signup'
     | '/auth/'
@@ -154,11 +178,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AuthRoute: typeof AuthRouteWithChildren
+  DashboardRoute: typeof DashboardRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AuthRoute: AuthRouteWithChildren,
+  DashboardRoute: DashboardRoute,
 }
 
 export const routeTree = rootRoute
@@ -172,7 +198,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/auth"
+        "/auth",
+        "/dashboard"
       ]
     },
     "/": {
@@ -185,6 +212,9 @@ export const routeTree = rootRoute
         "/auth/signup",
         "/auth/"
       ]
+    },
+    "/dashboard": {
+      "filePath": "dashboard.tsx"
     },
     "/auth/forgot-password": {
       "filePath": "auth/forgot-password.tsx",

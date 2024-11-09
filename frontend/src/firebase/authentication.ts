@@ -10,9 +10,10 @@ export const login = async (email: string, password: string) => {
       password
     );
     const user = userCredential.user;
-    const token = await user.getIdToken();
-    console.log("User logged in:", user);
-    return token;
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return { success: true, user };
   } catch (error) {
     if (error instanceof Error) {
       console.error("Error during login:", error.message);
