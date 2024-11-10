@@ -1,31 +1,31 @@
-const express = require("express");
-const admin = require("../firebase");
-const verifyToken = require("../middlewares/authMiddleware");
+import express from "express";
+import admin from "../firebase.js";
+import verifyToken from "../middlewares/authMiddleware.js";
+
 const router = express.Router();
 
 router.post("/create-profile", verifyToken, async (req, res) => {
   const uid = req.user.uid;
-  const { name, age, fitnessGoal, workoutPlan, dietPreference } = req.body;
+  const { name, age, gender, height, weight, fitnessGoal } = req.body;
 
   try {
     const db = admin.firestore();
     await db.collection("users").doc(uid).set({
       name,
       age,
+      gender,
+      height,
+      weight,
       fitnessGoal,
-      workoutPlan,
-      dietPreference,
     });
-    res.status(200).send("User profile created successfully!");
+    res.status(201).json({ message: "Profile created successfully" });
   } catch (error) {
     console.error("Error creating profile:", error);
-    res.status(500).send("Error creating user profile");
+    res.status(500).json({ error: "Something went wrong" });
   }
 });
-
 router.get("/user-profile", verifyToken, async (req, res) => {
   const uid = req.user.uid;
-
   try {
     const db = admin.firestore();
     const userDoc = await db.collection("users").doc(uid).get();
@@ -33,12 +33,12 @@ router.get("/user-profile", verifyToken, async (req, res) => {
     if (userDoc.exists) {
       res.status(200).json(userDoc.data());
     } else {
-      res.status(404).send("User profile not found");
+      res.status(404).json({ error: "User profile not found" });
     }
   } catch (error) {
     console.error("Error fetching profile:", error);
-    res.status(500).send("Error fetching user profile");
+    res.status(500).json({ error: "Something went wrong" });
   }
 });
 
-module.exports = router;
+export default router;

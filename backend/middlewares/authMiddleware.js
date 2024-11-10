@@ -1,19 +1,21 @@
-const admin = require("../firebase");
+import admin from "../firebase.js";
 
 const verifyToken = async (req, res, next) => {
-  const idToken = req.headers.authorization;
-
-  if (!idToken) {
-    return res.status(401).send("Unauthorized");
+  let idToken = req.headers.authorization;
+  if (idToken && idToken.startsWith("Bearer ")) {
+    idToken = idToken.split("Bearer ")[1];
   }
-
+  if (!idToken) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     req.user = decodedToken;
+    
     next();
   } catch (error) {
-    return res.status(403).send({ message: "Unauthorized" });
+    return res.status(403).json({ message: "Unauthorized" });
   }
 };
 
-module.exports = verifyToken;
+export default verifyToken;
