@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../hooks/useAuth";
 import { useEffect } from "react";
 export const Route = createFileRoute("/dashboard")({
@@ -6,18 +6,17 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function RouteComponent() {
-  const { logout, currentUser } = useAuth();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
     if (!currentUser) {
       navigate({ to: "/auth" });
     }
   }, [currentUser, navigate]);
-
+  useEffect(() => {}, []);
   return (
     <div>
-      <h1>Dashboard</h1>
-      <button onClick={logout}>Logout</button>
+      <Outlet />
     </div>
   );
 }

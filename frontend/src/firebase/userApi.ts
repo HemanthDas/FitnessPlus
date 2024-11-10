@@ -1,20 +1,31 @@
-export const checkOnce = async ({
-  getIdToken,
-}: {
-  getIdToken: string | undefined;
-}) => {
-  const response = await fetch(
-    import.meta.env.VITE_API_URL + "/users/check-once",
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${getIdToken}`,
-      },
-    }
-  );
-  if (!response.ok) {
-    throw new Error("Error during checkOnce");
+import { UserProfile } from "../types/types";
+const API = import.meta.env.VITE_API_URL + "/users";
+export const createUserProfile = async (
+  userProfile: UserProfile,
+  token: string
+) => {
+  const res = await fetch(`${API}/create-profile`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(userProfile),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to create user profile");
   }
-  return await response.json();
+  return res;
+};
+
+export const getUserProfile = async (token: string) => {
+  const res = await fetch(`${API}/user-profile`, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+  if (res.status === 404) {
+    return null;
+  }
+  return res.json();
 };
